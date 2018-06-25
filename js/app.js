@@ -5,6 +5,7 @@
 const cards = document.querySelectorAll(".card");
 const listOfCards = Array.from(cards);
 const deck = document.querySelector(".deck");
+const restartButton = document.querySelector(".restart");
 let moves = document.querySelector(".moves");
 let selectedCard = undefined;
 let solving = false;
@@ -92,7 +93,27 @@ function checkAllCardsMatched() {
     return document.querySelectorAll(".match").length === 16;
 }
 
+restartButton.addEventListener("click", () => {
+    window.location.reload(true);
+});
+
+function milisecondToMinute(ms) {
+    let gameTime;
+    // 1- Convert to seconds:
+    let seconds = ms / 1000;
+    // 2- Extract hours:
+    let hours = parseInt(seconds / 3600); // 3,600 seconds in 1 hour
+    seconds = seconds % 3600; // seconds remaining after extracting hours
+    // 3- Extract minutes:
+    let minutes = parseInt(seconds / 60); // 60 seconds in 1 minute
+    // 4- Keep only seconds not extracted to minutes:
+    seconds = seconds % 60;
+    gameTime = `${minutes} minute(s) and ${Math.floor(seconds)} second(s)`;
+    console.log("game time: ", gameTime);
+}
+
 function selectCard() {
+    let beginTime = performance.now();
     const card = document.querySelector("ul.deck");
 
     card.addEventListener("click", e => {
@@ -109,7 +130,11 @@ function selectCard() {
             if (match) {
                 applyMatch([clickedCard, selectedCard]);
                 selectedCard = undefined;
-                checkAllCardsMatched();
+                if (checkAllCardsMatched()) {
+                    let endTime = performance.now();
+                    milisecondToMinute(beginTime - endTime);
+                }
+
                 return;
             }
 
@@ -124,4 +149,5 @@ function selectCard() {
         selectedCard = e.target;
     });
 }
+
 selectCard();
