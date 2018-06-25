@@ -2,6 +2,12 @@
  * Create a list that holds all of your cards
  */
 
+const cards = document.querySelectorAll(".card");
+const listOfCards = Array.from(cards);
+
+let selectedCard = undefined;
+let solving = false;
+let counter = 0;
 
 /*
  * Display the cards on the page
@@ -10,9 +16,18 @@
  *   - add each card's HTML to the page
  */
 
+const deck = document.querySelector(".deck");
+const shuffledCards = shuffle(listOfCards);
+
+shuffledCards.forEach(card => {
+    deck.appendChild(card);
+});
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue,
+        randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -25,7 +40,6 @@ function shuffle(array) {
     return array;
 }
 
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -36,3 +50,75 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+function displayCardsSymbol(card) {
+    card.classList.add("show", "open");
+}
+
+function isMatch(cardA, cardB) {
+    let aClasses = cardA.firstChild.nextElementSibling.classList;
+    let bClasses = cardB.firstChild.nextElementSibling.classList;
+    console.log(aClasses, bClasses);
+    let result = true;
+
+    aClasses.forEach(c => {
+        if (bClasses.contains(c) === false) {
+            result = false;
+        }
+    });
+    return result;
+}
+
+function applyMatch(arrCards) {
+    arrCards.forEach(card => {
+        card.classList.add("match");
+    });
+}
+
+function hideCard(arrCards) {
+    arrCards.forEach(card => {
+        card.classList.remove("show", "open");
+    });
+}
+
+function increment() {
+    counter += 1;
+}
+
+function checkAllElementsMatched() {
+    return document.querySelectorAll(".match").length === 16;
+}
+
+function selectCard() {
+    const card = document.querySelector("ul.deck");
+
+    card.addEventListener("click", e => {
+        if (selectCard && solving) {
+            return;
+        }
+        increment();
+        displayCardsSymbol(e.target);
+        let match = false;
+        let clickedCard = e.target;
+
+        if (selectedCard) {
+            match = isMatch(clickedCard, selectedCard);
+            if (match) {
+                applyMatch([clickedCard, selectedCard]);
+                selectedCard = undefined;
+                checkAllElementsMatched();
+                return;
+            }
+
+            solving = true;
+            setTimeout(() => {
+                hideCard([clickedCard, selectedCard]);
+                selectedCard = undefined;
+                solving = false;
+            }, 1500);
+            return;
+        }
+        selectedCard = e.target;
+    });
+}
+selectCard();
