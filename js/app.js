@@ -4,7 +4,8 @@
 
 const cards = document.querySelectorAll(".card");
 const listOfCards = Array.from(cards);
-
+const deck = document.querySelector(".deck");
+let moves = document.querySelector(".moves");
 let selectedCard = undefined;
 let solving = false;
 let counter = 0;
@@ -16,7 +17,6 @@ let counter = 0;
  *   - add each card's HTML to the page
  */
 
-const deck = document.querySelector(".deck");
 const shuffledCards = shuffle(listOfCards);
 
 shuffledCards.forEach(card => {
@@ -58,7 +58,7 @@ function displayCardsSymbol(card) {
 function isMatch(cardA, cardB) {
     let aClasses = cardA.firstChild.nextElementSibling.classList;
     let bClasses = cardB.firstChild.nextElementSibling.classList;
-    console.log(aClasses, bClasses);
+
     let result = true;
 
     aClasses.forEach(c => {
@@ -81,11 +81,14 @@ function hideCard(arrCards) {
     });
 }
 
-function increment() {
+function incrementMovesCounter() {
     counter += 1;
+    if (counter % 2 === 0) {
+        moves.innerText = counter / 2;
+    }
 }
 
-function checkAllElementsMatched() {
+function checkAllCardsMatched() {
     return document.querySelectorAll(".match").length === 16;
 }
 
@@ -96,7 +99,7 @@ function selectCard() {
         if (selectCard && solving) {
             return;
         }
-        increment();
+        incrementMovesCounter();
         displayCardsSymbol(e.target);
         let match = false;
         let clickedCard = e.target;
@@ -106,7 +109,7 @@ function selectCard() {
             if (match) {
                 applyMatch([clickedCard, selectedCard]);
                 selectedCard = undefined;
-                checkAllElementsMatched();
+                checkAllCardsMatched();
                 return;
             }
 
