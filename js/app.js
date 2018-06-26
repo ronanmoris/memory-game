@@ -6,6 +6,9 @@ const cards = document.querySelectorAll(".card");
 const listOfCards = Array.from(cards);
 const deck = document.querySelector(".deck");
 const restartButton = document.querySelector(".restart");
+const secondStar = document.querySelector("ul.stars .second-star");
+const thirdStar = document.querySelector("ul.stars .third-star");
+console.log(secondStar);
 let moves = document.querySelector(".moves");
 let selectedCard = undefined;
 let solving = false;
@@ -112,6 +115,16 @@ function milisecondToMinute(ms) {
     console.log("game time: ", gameTime);
 }
 
+function displayRating(counter) {
+    console.log("counter inside function ", counter);
+    if (counter > 5) {
+        thirdStar.classList.add("far");
+    }
+    if (counter > 10) {
+        secondStar.classList.add("far");
+    }
+}
+
 function selectCard() {
     let beginTime = performance.now();
     const card = document.querySelector("ul.deck");
@@ -121,6 +134,7 @@ function selectCard() {
             return;
         }
         incrementMovesCounter();
+        displayRating(counter);
         displayCardsSymbol(e.target);
         let match = false;
         let clickedCard = e.target;
