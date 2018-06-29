@@ -66,29 +66,37 @@ h1 {
 }
 
 .deck .card.open {
-    transform: rotateY(180deg);
-    /*transform: scaleY(1.5);*/
-    transition: 0.5s;
     background: #02b3e4;
     cursor: default;
 }
 
 .deck .card.show {
     font-size: 33px;
+    transition: 0.5s;
 }
 
 .deck .card.match {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+    animation-name: scale;
+    animation-duration: 1s;
 }
 
+.deck .card.show.open.no-match {
+    cursor: default;
+    background: red;
+    font-size: 33px;
+    animation-name: spin;
+    animation-duration: 2s;
+}
 /*
  * Styles for the Score Panel
  */
 
 .score-panel {
-    text-align: left;
+    display: inline-flex;
+    justify-content: space-between;
     width: 345px;
     margin-bottom: 10px;
 }
@@ -108,4 +116,53 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 4%;
+    left: 22%;
+    /* transform: translate(-50%, -50%); */
+    width: 56%;
+    height: 43%;
+    background: #ffffff url(../img/index.gif);
+    background-size: cover;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+}
+
+.modal button {
+    width: 150px;
+    font-size: 20px;
+    background: #02ccba;
+    color: white;
+    padding: 0.3em;
+    font-weight: 250;
+    cursor: pointer;
+}
+
+.modal.open {
+    display: flex;
+}
+
+@keyframes scale {
+    0,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+}
+
+@keyframes spin {
+    25% {
+        transform: rotate(25deg);
+    }
+    75% {
+        transform: rotate(-25deg);
+    }
 }
