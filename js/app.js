@@ -18,12 +18,11 @@ let solving = false;
 let counter = 0;
 let stars = 3;
 //Variables for timer
+let secs, mins, gethours;
 let clearTime;
 let seconds = 0,
     minutes = 0,
     hours = 0;
-let secs, mins, gethours;
-let invokeStartWatch = true;
 
 /*
  * Display the cards on the page
@@ -90,15 +89,15 @@ function applyMatch(cardsArr) {
     });
 }
 
-// function applyNoMatch(cardsArr) {
-//     cardsArr.forEach(card => {
-//         card.classList.add("nomatch");
-//     });
-// }
+function applyNoMatch(cardsArr) {
+    cardsArr.forEach(card => {
+        card.classList.add("no-match");
+    });
+}
+
 function hideCard(cardsArr) {
     cardsArr.forEach(card => {
-        // card.classList.add("nomatch");
-        card.classList.remove("show", "open");
+        card.classList.remove("show", "open", "no-match");
     });
 }
 
@@ -123,17 +122,6 @@ restartButton.addEventListener("click", () => {
     restart();
 });
 
-// function milisecondToMinute(ms) {
-//     let gameTime;
-//     // Convert to seconds:
-//     let seconds = ms / 1000;
-//     // Extract minutes:
-//     let minutes = parseInt(seconds / 60); // 60 seconds in 1 minute
-//     // Keep only seconds not extracted to minutes:
-//     seconds = seconds % 60;
-//     gameTime = `${minutes} minute(s) and ${Math.floor(seconds)} second(s)`;
-//     return gameTime;
-// }
 function startWatch() {
     if (seconds === 60) {
         seconds = 0;
@@ -167,16 +155,12 @@ function displayModal(time) {
     p.innerHTML = `In ${time} with ${counter / 2} moves and ${stars} star(s)`;
 }
 
-playAgainButton.addEventListener("click", () => {
-    restart();
-});
-
 function selectCard() {
-    // let beginTime = performance.now();
-
     const card = document.querySelector("ul.deck");
+    let invokeStartWatch = true;
 
     card.addEventListener("click", e => {
+        //using invokeStartWatch to fire startWatch only once
         if (invokeStartWatch) {
             startWatch();
         }
@@ -198,17 +182,14 @@ function selectCard() {
                 applyMatch([clickedCard, selectedCard]);
                 selectedCard = undefined;
                 if (checkAllCardsMatched()) {
-                    // let endTime = performance.now();
-                    // let totalTime = milisecondToMinute(beginTime - endTime);
-                    // displayModal(totalTime);
+                    displayModal(stopWatch.innerHTML);
                     clearTimeout(clearTime);
                 }
                 return;
             }
-
+            applyNoMatch([clickedCard, selectedCard]);
             solving = true;
             setTimeout(() => {
-                // applyNoMatch([clickedCard, selectedCard]);
                 hideCard([clickedCard, selectedCard]);
                 selectedCard = undefined;
                 solving = false;
@@ -218,5 +199,8 @@ function selectCard() {
         selectedCard = e.target;
     });
 }
+playAgainButton.addEventListener("click", () => {
+    restart();
+});
 
 selectCard();
