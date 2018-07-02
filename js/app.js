@@ -140,47 +140,51 @@ function selectCard() {
     let selectedCard = undefined;
 
     card.addEventListener("click", e => {
-        let match = false;
-        let clickedCard = e.target;
-        //using invokeStartWatch to fire startWatch only once
-        if (invokeStartWatch) {
-            startWatch();
-        }
-        invokeStartWatch = false;
+        //only listen for click on li element
+        if (e.target && e.target.nodeName === "LI") {
+            let match = false;
+            let clickedCard = e.target;
+            //using invokeStartWatch to fire startWatch only once
+            if (invokeStartWatch) {
+                startWatch();
+            }
 
-        if (selectCard && solving) {
-            return;
-        }
-        //avoiding two clicks on the same card
-        if (isOpen(clickedCard)) {
-            return;
-        }
+            invokeStartWatch = false;
 
-        displayCardsSymbol(clickedCard);
-        incrementMovesCounter();
-        displayRating(counter);
-
-        if (selectedCard) {
-            match = isMatch(clickedCard, selectedCard);
-            if (match) {
-                applyMatch([clickedCard, selectedCard]);
-                selectedCard = undefined;
-                if (checkAllCardsMatched()) {
-                    displayModal(stopWatch.innerHTML);
-                    clearTimeout(clearTime);
-                }
+            if (selectCard && solving) {
                 return;
             }
-            applyNoMatch([clickedCard, selectedCard]);
-            solving = true;
-            setTimeout(() => {
-                hideCard([clickedCard, selectedCard]);
-                selectedCard = undefined;
-                solving = false;
-            }, 1500);
-            return;
+            //avoiding two clicks on the same card
+            if (isOpen(clickedCard)) {
+                return;
+            }
+
+            displayCardsSymbol(clickedCard);
+            incrementMovesCounter();
+            displayRating(counter);
+
+            if (selectedCard) {
+                match = isMatch(clickedCard, selectedCard);
+                if (match) {
+                    applyMatch([clickedCard, selectedCard]);
+                    selectedCard = undefined;
+                    if (checkAllCardsMatched()) {
+                        displayModal(stopWatch.innerHTML);
+                        clearTimeout(clearTime);
+                    }
+                    return;
+                }
+                applyNoMatch([clickedCard, selectedCard]);
+                solving = true;
+                setTimeout(() => {
+                    hideCard([clickedCard, selectedCard]);
+                    selectedCard = undefined;
+                    solving = false;
+                }, 1500);
+                return;
+            }
+            selectedCard = e.target;
         }
-        selectedCard = e.target;
     });
 }
 playAgainButton.addEventListener("click", () => {
