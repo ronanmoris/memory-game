@@ -13,16 +13,13 @@ const p = document.querySelector(".modal p");
 const playAgainButton = document.querySelector(".modal button");
 const stopWatch = document.querySelector(".stop-watch");
 let moves = document.querySelector(".moves");
-let selectedCard = undefined;
-let solving = false;
 let counter = 0;
 let stars = 3;
 //Variables for timer
-let secs, mins, gethours;
+let secs, mins;
 let clearTime;
 let seconds = 0,
-    minutes = 0,
-    hours = 0;
+    minutes = 0;
 
 /*
  * Display the cards on the page
@@ -69,10 +66,15 @@ function displayCardsSymbol(card) {
     card.classList.add("show", "open");
 }
 
+function isOpen(card) {
+    if (card.classList.value === "card show open") {
+        return true;
+    }
+}
+
 function isMatch(cardA, cardB) {
     let aClasses = cardA.firstChild.nextElementSibling.classList;
     let bClasses = cardB.firstChild.nextElementSibling.classList;
-
     let result = true;
 
     aClasses.forEach(c => {
@@ -127,14 +129,12 @@ function startWatch() {
         seconds = 0;
         minutes += 1;
     }
-    mins = minutes < 10 ? "0" + minutes + ": " : minutes + ": ";
+    mins = minutes + " mins ";
     if (minutes === 60) {
         minutes = 0;
-        hours += 1;
     }
-    gethours = hours < 10 ? "0" + hours + ": " : hours + ": ";
-    secs = seconds < 10 ? "0" + seconds : seconds;
-    stopWatch.innerHTML = "Time: " + gethours + mins + secs;
+    secs = seconds + " secs";
+    stopWatch.innerHTML = mins + secs;
     seconds++;
     clearTime = setTimeout("startWatch()", 1000);
 }
@@ -152,14 +152,18 @@ function displayRating(counter) {
 
 function displayModal(time) {
     modal.classList.toggle("open");
-    p.innerHTML = `In ${time} with ${counter / 2} moves and ${stars} star(s)`;
+    p.innerHTML = `In ${time} with ${counter / 2} moves and ${stars} star(s)!`;
 }
 
 function selectCard() {
     const card = document.querySelector("ul.deck");
     let invokeStartWatch = true;
+    let solving = false;
+    let selectedCard = undefined;
 
     card.addEventListener("click", e => {
+        let match = false;
+        let clickedCard = e.target;
         //using invokeStartWatch to fire startWatch only once
         if (invokeStartWatch) {
             startWatch();
@@ -169,12 +173,14 @@ function selectCard() {
         if (selectCard && solving) {
             return;
         }
-        let match = false;
-        let clickedCard = e.target;
+        //avoiding two clicks on the same card
+        if (isOpen(clickedCard)) {
+            return;
+        }
 
+        displayCardsSymbol(clickedCard);
         incrementMovesCounter();
         displayRating(counter);
-        displayCardsSymbol(e.target);
 
         if (selectedCard) {
             match = isMatch(clickedCard, selectedCard);
