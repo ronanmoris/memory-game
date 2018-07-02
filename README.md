@@ -4,7 +4,12 @@ This is a simple game to test the players memory. To win the game, the player sh
 
 ![Memory Game](./img/memory-game.png?raw=true)
 
-## Instructions
+## How to run the game in your machine
+
+1.  [Download](https://github.com/ronanmoris/memory-game) or [Clone](https://github.com/ronanmoris/memory-game) the Repository.
+2.  Open the `index.html` file in your browser.
+
+## How to Play
 
 *   Click on a card to start the game
 *   Try to match the symbols
@@ -15,7 +20,6 @@ The three stars on top of the deck are the players rating based on how many move
 
 The timer will start as soon as the player clicks the first card. The faster the player finishes the game the better!
 
-## How to run the game in your machine
+## Technologies used
 
-1.  [Download](https://github.com/ronanmoris/memory-game) or [Clone](https://github.com/ronanmoris/memory-game) the Repository.
-2.  Open the `index.html` file in your browser.
+The game was built using Vanilla JavaScript
