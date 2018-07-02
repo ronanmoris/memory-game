@@ -1,20 +1,21 @@
 # Memory Game Project
 
-## Table of Contents
+This is a simple game to test the players memory. To win the game, the player should match all the cards.
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+![Memory Game](./img/memory-game.png?raw=true)
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+*   Click on a card to start the game
+*   Try to match the symbols
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Rating
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+The three stars on top of the deck are the players rating based on how many moves he/she needs to complete the challenge. The more stars the player keeps until the end the better.
 
-## Contributing
+The timer will start as soon as the player clicks the first card. The faster the player finishes the game the better!
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+## How to run the game in your machine
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+1.  [Download](https://github.com/ronanmoris/memory-game) or [Clone](https://github.com/ronanmoris/memory-game) the Repository.
+2.  Open the `index.html` file in your browser.
