@@ -6,7 +6,7 @@ This is a simple game to test the players memory. To win the game, the player sh
 
 ## How to run the game in your machine
 
-1.  [Download](https://github.com/ronanmoris/memory-game) or [Clone](https://github.com/ronanmoris/memory-game) the Repository.
+1.  [Download](https://github.com/ronanmoris/memory-game) by clicking on the green button on the right (Clone or Download) or [Clone](https://github.com/ronanmoris/memory-game) the Repository.
 2.  Open the `index.html` file in your browser.
 
 ## How to Play
